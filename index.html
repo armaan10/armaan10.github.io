@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Armaan Ashfaque</title>
+  <meta name="description" content="Armaan Ashfaque — software engineer specialising in high-performance systems, GPU-accelerated computing, and distributed systems. MSCS, University of Illinois Chicago." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:        #f5f2ec;
+      --surface:   #edeae2;
+      --ink:       #2c2a25;
+      --ink-soft:  #7a7568;
+      --accent:    #8a9e85;      /* muted sage */
+      --accent-lt: #c5d4c2;
+      --border:    #d8d4ca;
+      --radius:    12px;
+      --font-head: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Subtle grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── Layout wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 36px 0 0;
+      margin-bottom: 80px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s ease forwards;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .nav-links li:nth-child(1) a { animation-delay: 0.15s; }
+    .nav-links li:nth-child(2) a { animation-delay: 0.22s; }
+    .nav-links li:nth-child(3) a { animation-delay: 0.29s; }
+    .nav-links li:nth-child(4) a { animation-delay: 0.36s; }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── Hero ── */
+    .hero {
+      margin-bottom: 96px;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      margin-bottom: 28px;
+    }
+
+    .hero-photo {
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      object-fit: cover;
+      background: var(--surface);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s ease forwards;
+    }
+
+    .hero-photo-placeholder {
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px dashed var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-soft);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s ease forwards;
+    }
+
+    .hero-heading { flex: 1; }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s ease forwards;
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(3rem, 10vw, 5.2rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s ease forwards;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 1.02rem;
+      color: var(--ink-soft);
+      max-width: 480px;
+      line-height: 1.85;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s ease forwards;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 36px;
+      padding: 12px 26px;
+      border: 1.5px solid var(--accent);
+      border-radius: 100px;
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.68s ease forwards;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .hero-cta svg { transition: transform 0.2s; }
+    .hero-cta:hover svg { transform: translateX(3px); }
+
+    /* ── Divider ── */
+    .divider {
+      width: 48px;
+      height: 1.5px;
+      background: var(--accent-lt);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.7s ease forwards;
+    }
+
+    /* ── Section titles ── */
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    /* ── Projects ── */
+    #projects { margin-bottom: 96px; }
+
+    .project-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 30px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-lt) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(138,158,133,0.12);
+    }
+
+    .project-card:hover::before { opacity: 0.25; }
+
+    .project-card-inner { position: relative; z-index: 1; }
+.project-image {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  background: var(--surface);
+}
+    .project-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    .project-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-lt);
+      border-radius: 100px;
+      padding: 3px 10px;
+    }
+
+    /* ── Beyond the Code ── */
+    #beyond { margin-bottom: 96px; }
+
+    .interest-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .interest-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+    }
+
+    .interest-icon {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .interest-title {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .interest-detail {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 520px) {
+      .interest-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Links / Social ── */
+    #contact { margin-bottom: 80px; }
+
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--ink);
+      transition: color 0.2s;
+    }
+
+    .link-row:first-child { border-top: 1px solid var(--border); }
+    .link-row:hover { color: var(--accent); }
+
+    .link-row:hover .link-arrow { transform: translateX(4px); }
+
+    .link-name {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+
+    .link-sub {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+    }
+
+    .link-arrow {
+      color: var(--accent);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-name {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--ink-soft);
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stagger project cards */
+    .project-card:nth-child(1) { opacity: 0; animation: fadeUp 0.6s 0.75s ease forwards; }
+    .project-card:nth-child(2) { opacity: 0; animation: fadeUp 0.6s 0.88s ease forwards; }
+    .project-card:nth-child(3) { opacity: 0; animation: fadeUp 0.6s 1.00s ease forwards; }
+
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
+      nav { margin-bottom: 56px; }
+      .hero { margin-bottom: 64px; }
+      .link-sub { display: none; }
+      .hero-top { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-photo, .hero-photo-placeholder { width: 80px; height: 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="#" class="nav-logo">AA</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#beyond">Beyond</a></li>
+      <li><a href="#contact">Links</a></li>
+      <li><a href="mailto:ashfaque.armaan99@gmail.com">Email</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-top">
+      <img src="images/me.JPG" alt="Armaan Ashfaque" class="hero-photo" /> 
+      
+      <div class="hero-heading">
+        <p class="hero-eyebrow">MSCS &middot; University of Illinois Chicago</p>
+        <h1>Armaan <em>Ashfaque</em></h1>
+      </div>
+    </div>
+    <p class="hero-bio">Hello there! I'm Armaan, a software engineer with a passion for high-performance systems and a particular drive toward GPU-accelerated computing. I graduated with a 4.0 GPA and am actively looking to grow in this space, though I'm equally drawn to any role that puts complex, interesting problems front and centre.</p>
+    <a href="#projects" class="hero-cta">
+      See my work
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- ── Projects ── -->
+  <section id="projects">
+    <p class="section-label">Selected Projects</p>
+    <div class="divider"></div>
+    <div class="project-grid">
+
+      <!-- Project 1 — replace href, title, description, tag -->
+      <a href="https://github.com/armaan10/hpc-log-proc" class="project-card" target="_blank" rel="noopener">
+        <img src="images/pipeline.png" alt="HPC log processing pipeline" class="project-image" />
+
+        <div class="project-card-inner">
+          <p class="project-title">Scalable Processing and Analysis of Large-Scale High Performance
+Computing Logs</p>
+          <p class="project-desc">For my master's project I built a high throughput log processing pipeline for analyzing 2.4TB of system logs from the MIT Supercloud Cluster. The processed logs are used to identify a variety of trends in system and user behavior.</p>
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Data Analysis</span>
+
+        </div>
+      </a>
+
+      <!-- Project 2 -->
+      <a href="https://github.com/armaan10/NNViz" class="project-card" target="_blank" rel="noopener">
+                <img src="images/nnviz.png" alt="NNViz" class="project-image" />
+
+        <div class="project-card-inner">
+          <p class="project-title">NNViz</p>
+          <p class="project-desc">A WebGPU-powered tool built for visualizing neural network architectures and training processes. The tool allows users to configure their own neural network and observe how it evolves during training. Neuron activation and edge weights are color-coded to represent their magnitude and sign. Backpropagation is visualized as a wave travelling through the network.</p>
+          <span class="project-tag">TypeScript</span>
+          <span class="project-tag">WebGPU</span>
+          <span class="project-tag">GPU Acceleration</span>
+        </div>
+      </a>
+
+      <!-- Project 3 -->
+      <a href="https://github.com/armaan10/CS553_2026" class="project-card" target="_blank" rel="noopener">
+        <img src="images/terminal_553.png" alt="Distributed Algorithms Simulator" class="project-image" />
+
+        <div class="project-card-inner">
+          <p class="project-title">Distributed Algorithms Simulator</p>
+          <p class="project-desc">Built an end-to-end distributed algorithms simulator using Scala and Akka classic actors. Randomly generated graphs are used to define the network topology, where each node is an actor in the distributed system. Itai-Rodeh leader election and ring size estimation algorithms run on top of these networks.</p>
+          <span class="project-tag">Scala</span>
+          <span class="project-tag">Distributed Systems</span>
+          <span class="project-tag">Akka</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── Beyond the Code ── -->
+  <section id="beyond">
+    <p class="section-label">Beyond the Code</p>
+    <div class="divider"></div>
+    <div class="interest-grid">
+
+      <div class="interest-card">
+        <div class="interest-icon">&#x26BD;</div>
+        <p class="interest-title">Football</p>
+        <p class="interest-detail">I have been following and playing football for as long as I can remember. Manchester United through and through.</p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-icon">&#x1F3AE;</div>
+        <p class="interest-title">Video Games</p>
+        <p class="interest-detail">Currently losing hair trying to beat Hades II.</p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-icon">&#x1F3AC;</div>
+        <p class="interest-title">Movies</p>
+        <p class="interest-detail">Love exploring the world of cinema. Hit me up with recommendations or if you want to hear me ramble on about how Robert Pattinson is the best Batman ever.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Links / Contact ── -->
+  <section id="contact">
+    <p class="section-label">Find Me</p>
+    <div class="divider"></div>
+    <div class="links-list">
+
+      <a href="https://github.com/armaan10" class="link-row" target="_blank" rel="noopener">
+        <span>
+          <span class="link-name">GitHub</span><br>
+          <span class="link-sub">github.com/armaan10</span>
+        </span>
+        <svg class="link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a href="https://linkedin.com/in/armaan-ashfaque-05442317b" class="link-row" target="_blank" rel="noopener">
+        <span>
+          <span class="link-name">LinkedIn</span><br>
+          <span class="link-sub">linkedin.com/in/armaan-ashfaque-05442317b</span>
+        </span>
+        <svg class="link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+
+      <a href="mailto:ashfaque.armaan99@gmail.com" class="link-row">
+        <span>
+          <span class="link-name">Email</span><br>
+          <span class="link-sub">ashfaque.armaan99@gmail.com</span>
+        </span>
+        <svg class="link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <span class="footer-name">Armaan Ashfaque</span>
+    <span class="footer-copy">&copy; 2026 — Built with GitHub Pages</span>
+  </footer>
+
+</div>
+</body>
+</html>
